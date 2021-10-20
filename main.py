@@ -3,7 +3,7 @@ def print_meniu():
     print("2. Toate numerele negative nenule din lista")
     print("3. Cel mai mic numar cu ultima cifra citita de la tastatura")
     print("4. Toate numerele din lista care sunt superprime")
-    print("5. cerinta 4")
+    print("5. Modificare lista")
     print("6. Iesire")
 
 def citire_lista():
@@ -93,10 +93,40 @@ def test_cmmdc():
 
 def oglindit(n):
     nr=0
-    while n!=0:
-        nr=nr*10+n%10
-        n=n//10
-    return nr
+    numar=abs(n)
+    while numar!=0:
+        nr=nr*10+numar%10
+        numar=numar//10
+    return -nr
+
+def test_oglindit():
+    assert oglindit(-37)==-73
+    assert oglindit(-76)==-67
+    assert oglindit(-13)==-31
+
+def inlocuire(list):
+    rezultat=[]
+    pozitive=[]
+    for x in list:
+        if x>0:
+            pozitive.append(x)
+    a=pozitive[0]
+    b=pozitive[1]
+    c=cmmdc(a,b)
+    i=2
+    while i<len(pozitive):
+        if pozitive[i]%c!=0:
+            c=cmmdc(c,pozitive[i])
+        i=i+1
+    for x in list:
+        if x>0:
+            rezultat.append(c)
+        else:
+            rezultat.append(oglindit(x))
+    return rezultat
+
+def test_cerinta5():
+    assert inlocuire([-76, 12, 24, -13, 144]) == [-67, 12, 12, -31, 12]
 
 def main():
     list=[]
@@ -114,7 +144,7 @@ def main():
         elif option==4:
             print(toate_superprime(list))
         elif option==5:
-            pass
+            print(inlocuire(list))
         elif option == 6:
             break
         else:
@@ -125,6 +155,8 @@ def main():
     test_cmmdc()
     test_superprim()
     test_cerinta4()
+    test_oglindit()
+    test_cerinta5()
 
 if __name__ == '__main__':
     main()
